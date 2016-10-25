@@ -17,6 +17,9 @@ class UserModel(models.Model):
     ctime = models.DateTimeField("创建时间", auto_now_add=True, db_index=True)
     utime = models.DateTimeField("更新时间", auto_now=True, db_index=True)
 
+    def __str__(self):
+        return self.user_name
+
     class Meta:
         db_table = "user"
         verbose_name = "用户"
@@ -29,6 +32,9 @@ class BlogModel(models.Model):
     author = models.CharField("作者", db_index=True, max_length=100)
     ctime = models.DateTimeField("创建时间", auto_now_add=True, db_index=True)
     utime = models.DateTimeField("更新时间", auto_now=True, db_index=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table = "blog"
@@ -43,6 +49,9 @@ class CommentModel(models.Model):
     content = models.TextField("评论内容")
     ctime = models.DateTimeField("创建时间", auto_now_add=True, db_index=True)
     utime = models.DateTimeField("更新时间", auto_now=True, db_index=True)
+
+    def __str__(self):
+        return self.id
 
     class Meta:
         db_table = "comment"
