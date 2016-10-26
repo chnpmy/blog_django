@@ -45,7 +45,7 @@ class BlogModel(models.Model):
 class CommentModel(models.Model):
     blog = models.ForeignKey(BlogModel)
     user = models.ForeignKey(UserModel)
-    father = models.IntegerField("父评论", blank=True, default=-1, db_index=True)
+    father = models.ForeignKey("CommentModel", blank=True, db_index=True)
     content = models.TextField("评论内容")
     ctime = models.DateTimeField("创建时间", auto_now_add=True, db_index=True)
     utime = models.DateTimeField("更新时间", auto_now=True, db_index=True)
