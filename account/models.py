@@ -28,6 +28,7 @@ class UserModel(models.Model):
 
 class BlogModel(models.Model):
     title = models.CharField("博客标题", db_index=True, max_length=100)
+    digest = models.TextField("博客摘要")
     article = models.TextField("博客正文")
     author = models.CharField("作者", db_index=True, max_length=100)
     ctime = models.DateTimeField("创建时间", auto_now_add=True, db_index=True)
