@@ -23,9 +23,7 @@ xversion.register_models()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include("account.urls")),
+    url(r'xadmin/', include(xadmin.site.urls)),
+    url(r'^', include("blog.urls")),
 ]
 
-urlpatterns += [
-    url(r'xadmin/', include(xadmin.site.urls)),
-]
