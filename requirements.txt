@@ -12,7 +12,7 @@ pyasn1==0.1.9
 pycparser==2.16
 python-json-logger==0.1.5
 redis==2.10.5
-requeusts==1.10.0
+requeusts==2.10.0
 sqlparse==0.2.1
 
 Markdown==2.6.6
