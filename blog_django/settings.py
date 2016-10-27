@@ -40,7 +40,10 @@ INSTALLED_APPS = [
 
     'account',
 
-    'rest_framework'
+    'xadmin',
+    'crispy_forms',
+    'reversion',
+    'rest_framework',
 ]
 
 REST_FRAMEWORK = {

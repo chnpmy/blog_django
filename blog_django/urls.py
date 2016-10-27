@@ -15,8 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+import xadmin
+
+xadmin.autodiscover()
+from xadmin.plugins import xversion
+xversion.register_models()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include("account.urls")),
+]
+
+urlpatterns += [
+    url(r'xadmin/', include(xadmin.site.urls)),
 ]
