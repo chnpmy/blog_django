@@ -1,0 +1,30 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "global_css.html" %}
+    {% block extra_style %}{% endblock %}
+    <title>{% block title %}My amazing site{% endblock %}</title>
+</head>
+
+<body>
+    <div id="header">
+        {% block header %}{% include "header.html" %}{% endblock %}
+    </div>
+
+    <div class="container">
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <div id="footer">
+        <hr/>
+        {% block footer %}{% include "footer.html" %}{% endblock %}
+    </div>
+
+    {% include "global_script.html" %}
+
+    {% block extra_script %}{% endblock %}
+</body>
+</html>

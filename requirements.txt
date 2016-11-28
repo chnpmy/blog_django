@@ -4,6 +4,7 @@ django-crispy-forms==1.6.0
 django-debug-toolbar==1.4
 django-redis-cache==1.6.5
 djangorestframework==3.3.3
+django-bootstrap3==7.1.0
 
 gunicorn==19.6.0
 idna==2.1

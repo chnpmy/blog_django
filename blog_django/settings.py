@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'blog_django',
     'account',
     'blog',
 
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'reversion',
     'rest_framework',
+    'bootstrap3',
 ]
 
 REST_FRAMEWORK = {
