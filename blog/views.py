@@ -2,6 +2,7 @@ from django.shortcuts import render
 from blog.models import BlogModel, CommentModel
 from blog.serializers import BlogListSerializer, BlogDetailSerializer,\
     CommentSerializer
+from django.views.generic import FormView
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.views.generic import ListView, DetailView
 import markdown2
@@ -50,6 +51,10 @@ class BlogDetailView(DetailView):
         obj = BlogModel.objects.get(id=self.kwargs["blog_id"])
         obj.article = markdown2.markdown(obj.article)
         return obj
+
+
+class BlogEditView(FormView):
+    template_name = "blog_edit.html"
 
 
 class CommentListView(ListView):
