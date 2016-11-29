@@ -25,9 +25,10 @@ xversion.register_models()
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'xadmin/', include(xadmin.site.urls)),
+    url(r'^xadmin/', include(xadmin.site.urls)),
+] + static(settings.STATIC_URL,
+           document_root=settings.STATIC_ROOT)
+
+urlpatterns += [
     url(r'^', include("blog.urls")),
 ]
-
-urlpatterns += static(settings.STATIC_URL,
-                      document_root=settings.STATIC_ROOT)
