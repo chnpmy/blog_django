@@ -3,6 +3,6 @@
     <div class="blog-post">
         <h2 class="blog-post-title">{{ object.title }}</h2>
         <p class="blog-post-meta">{{ object.ctime }} by {{ object.author }}</p>
-        <p class="blog-post-article">{{ object.article }}</p>
+        <p class="blog-post-article">{{ object.article | safe }}</p>
     </div>
 {% endblock %}

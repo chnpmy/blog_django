@@ -4,6 +4,7 @@ from blog.serializers import BlogListSerializer, BlogDetailSerializer,\
     CommentSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.views.generic import ListView, DetailView
+import markdown2
 
 # Create your views here.
 
@@ -34,13 +35,21 @@ class BlogListView(ListView):
     model = BlogModel
     template_name = 'blog_list.html'
 
+    def get_queryset(self):
+        query_set = super(BlogListView, self).get_queryset()
+        for each in query_set:
+            each.digest = markdown2.markdown(each.digest)
+        return query_set
+
 
 class BlogDetailView(DetailView):
     model = BlogModel
     template_name = 'blog_detail.html'
 
     def get_object(self, queryset=None):
-        return BlogModel.objects.get(id=self.kwargs["blog_id"])
+        obj = BlogModel.objects.get(id=self.kwargs["blog_id"])
+        obj.article = markdown2.markdown(obj.article)
+        return obj
 
 
 class CommentListView(ListView):

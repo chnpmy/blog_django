@@ -2,9 +2,9 @@
 {% block content %}
     {% for post in object_list %}
         <div class="blog-post">
-            <h2 class="blog-post-title">{{ post.title }}</h2>
+            <h2 class="blog-post-title"><a href="/blog/{{ post.id }}/">{{ post.title }}</a></h2>
             <p class="blog-post-meta">{{ post.ctime }} by {{ post.author }}</p>
-            <p class="blog-post-digest">{{ post.digest }}</p>
+            <p class="blog-post-digest">{{ post.digest | safe }}</p>
         </div>
     {% endfor %}
 {% endblock %}
