@@ -4,7 +4,13 @@
 <head>
     {% include "global_css.html" %}
     {% block extra_style %}{% endblock %}
-    <title>{% block title %}My amazing site{% endblock %}</title>
+    <title>{% block title %}Mingyuan Pei's Blog{% endblock %}</title>
+    <style type="text/css">
+        #header-img {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,9 +18,21 @@
         {% block header %}{% include "header.html" %}{% endblock %}
     </div>
 
-    <div class="container">
-        <div id="content">
-            {% block content %}{% endblock %}
+    <div class="container" style="min-height: 1000px">
+        <div id="content" class="row">
+            <div class="col-sm-8">
+                {% block content %}{% endblock %}
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                {% block side %}
+                    <div class="sidebar">
+                        <img src="/static/blog_django/img/head.JPG" class="img-rounded" id="header-img">
+                        <div class="sidebar-module sidebar-module-inset">
+                            <h4>关于作者</h4>
+                        </div>
+                    </div>
+                {% endblock %}
+            </div>
         </div>
     </div>
 

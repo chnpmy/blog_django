@@ -1,8 +1,15 @@
 {% extends "base.html" %}
+{% block extra_style %}
+    <style type="text/css">
+    .blog-post {
+        margin: 40px;
+    }
+    </style>
+{% endblock %}
 {% block content %}
     {% for post in object_list %}
         <div class="blog-post">
-            <h2 class="blog-post-title"><a href="/blog/{{ post.id }}/">{{ post.title }}</a></h2>
+            <h2 class="blog-post-title"><span class="glyphicon glyphicon-book"></span> <a href="/blog/{{ post.id }}/">{{ post.title }}</a></h2>
             <p class="blog-post-meta">{{ post.ctime }} by {{ post.author }}</p>
             <p class="blog-post-digest">{{ post.digest | safe }}</p>
         </div>
