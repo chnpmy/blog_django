@@ -1,6 +1,6 @@
 import multiprocessing
 
-bind = '127.0.0.1:8000'
+bind = '0.0.0.0:8000'
 max_requests = 10000
 keepalive = 5
 
