@@ -1,4 +1,5 @@
 from blog.forms import BlogEditForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -57,7 +58,7 @@ class BlogDetailView(DetailView):
         return obj
 
 
-class BlogEditView(FormView):
+class BlogEditView(LoginRequiredMixin, FormView):
     template_name = 'blog_edit.html'
     form_class = BlogEditForm
 

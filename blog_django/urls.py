@@ -30,5 +30,6 @@ urlpatterns = [
            document_root=settings.STATIC_ROOT)
 
 urlpatterns += [
+    url(r'^account/', include("account.urls")),
     url(r'^', include("blog.urls")),
 ]
