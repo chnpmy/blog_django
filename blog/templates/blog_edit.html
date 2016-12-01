@@ -1,8 +1,113 @@
 {% extends "base.html" %}
-{% block content %}
-    <div class="blog-post">
-        <h2 class="blog-post-title">{{ object.title }}</h2>
-        <p class="blog-post-meta">{{ object.ctime }} by {{ object.author }}</p>
-        <p class="blog-post-article">{{ object.article | safe }}</p>
+{% load bootstrap3 %}
+{% block extra_style %}
+    <style type="text/css">
+        html, body, .md-area {
+          margin: 0;
+          height: 300px;
+          font-family: 'Helvetica Neue', Arial, sans-serif;
+          color: #333;
+        }
+
+        textarea, .md-area div {
+          display: inline-block;
+          width: 48%;
+          height: 100%;
+          vertical-align: top;
+          box-sizing: border-box;
+          padding: 0 20px;
+            overflow: scroll;
+        }
+
+        textarea {
+          border: none;
+          border-right: 1px solid #ccc;
+          resize: none;
+          outline: none;
+          background-color: #f6f6f6;
+          font-size: 14px;
+          font-family: 'Monaco', courier, monospace;
+          padding: 20px;
+        }
+
+        code {
+          color: #f66;
+        }
+
+        legend {
+            align-self: center;
+        }
+    </style>
+{% endblock %}
+{% block extra_script %}
+    <script type="text/javascript" src="https://unpkg.com/marked@0.3.6"></script>
+    <script type="text/javascript" src="https://unpkg.com/lodash@4.16.0"></script>
+    <script type="text/javascript" src="https://unpkg.com/vue@latest/dist/vue.js"></script>
+    <script type='text/javascript'>//<![CDATA[
+        function heredoc(fn) {
+            return fn.toString().split('\n').slice(1,-1).join('\n') + '\n'
+        }
+        window.onload=function(){
+        new Vue({
+          el: '#editor_digest',
+          data: {
+            input: heredoc(function () {/*
+{{ form.initial.digest | safe }}
+                */})
+          },
+          computed: {
+            compiledMarkdown: function () {
+              return marked(this.input, { sanitize: true })
+            }
+          },
+          methods: {
+            update: _.debounce(function (e) {
+              this.input = e.target.value
+            }, 300)
+          }
+        });
+            new Vue({
+          el: '#editor_article',
+          data: {
+            input: heredoc(function () {/*
+{{ form.initial.article | safe }}
+                */})
+          },
+          computed: {
+            compiledMarkdown: function () {
+              return marked(this.input, { sanitize: true })
+            }
+          },
+          methods: {
+            update: _.debounce(function (e) {
+              this.input = e.target.value
+            }, 300)
+          }
+        })
+    }//]]>
+</script>
+{% endblock %}
+{% block main_body %}
+    <legend>编辑博客</legend>
+    <form method="POST" action="{% url "blog_edit" blog_id=1 %}">
+        {% csrf_token %}
+        {% for item in form %}
+            {% if item.name == 'title' %}
+                {% bootstrap_field item %}
+            {% else %}
+                    <label class="control-label" for="id_{{ item.name }}">{{ item.label }}</label>
+                    <div id="editor_{{ item.name }}" class="md-area">
+                      <textarea :value="input" @input="update" id="id_{{ item.name }}" name="{{ item.name }}"></textarea>
+                      <div v-html="compiledMarkdown"></div>
+                    </div>
+            {% endif %}
+        {% endfor %}
+        <button class="btn btn-primary" type="submit" onclick="this.disabled=true,this.form.submit()">完成编辑</button>
+    </form>
+    <!--
+    <div id="editor">
+      <textarea :value="input" @input="update"></textarea>
+      <div v-html="compiledMarkdown"></div>
     </div>
+    -->
 {% endblock %}

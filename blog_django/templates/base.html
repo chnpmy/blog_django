@@ -1,7 +1,8 @@
-{% load i18n %}
 <!DOCTYPE html>
+{% load i18n %}
 <html lang="en">
 <head>
+    {% block ahead_script %}{% endblock %}
     {% include "global_css.html" %}
     {% block extra_style %}{% endblock %}
     <title>{% block title %}Mingyuan Pei's Blog{% endblock %}</title>
@@ -17,7 +18,7 @@
     <div id="header">
         {% block header %}{% include "header.html" %}{% endblock %}
     </div>
-
+    {% block main_body %}
     <div class="container" style="min-height: 1000px">
         <div id="content" class="row">
             <div class="col-sm-8">
@@ -35,7 +36,7 @@
             </div>
         </div>
     </div>
-
+    {% endblock %}
     <div id="footer">
         <hr/>
         {% block footer %}{% include "footer.html" %}{% endblock %}

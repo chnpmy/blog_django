@@ -1,8 +1,12 @@
-from django.shortcuts import render
+from blog.forms import BlogEditForm
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from blog.models import BlogModel, CommentModel
 from blog.serializers import BlogListSerializer, BlogDetailSerializer,\
     CommentSerializer
 from django.views.generic import FormView
+from django.views.generic import View
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from django.views.generic import ListView, DetailView
 import markdown2
@@ -48,13 +52,35 @@ class BlogDetailView(DetailView):
     template_name = 'blog_detail.html'
 
     def get_object(self, queryset=None):
-        obj = BlogModel.objects.get(id=self.kwargs["blog_id"])
+        obj = get_object_or_404(BlogModel, id=self.kwargs.get("blog_id"))
         obj.article = markdown2.markdown(obj.article)
         return obj
 
 
 class BlogEditView(FormView):
-    template_name = "blog_edit.html"
+    template_name = 'blog_edit.html'
+    form_class = BlogEditForm
+
+    def get_initial(self):
+        initial = super(BlogEditView, self).get_initial()
+        if self.kwargs.get("blog_id"):
+            obj = get_object_or_404(BlogModel, id=self.kwargs.get("blog_id"))
+            initial["id"] = obj.id
+            initial["title"] = obj.title
+            initial["digest"] = obj.digest
+            initial["article"] = obj.article
+        return initial
+
+    def form_valid(self, form):
+        self.update_blog(form)
+        return HttpResponseRedirect(reverse("blog_detail", kwargs={"blog_id": self.kwargs.get("blog_id")}))
+
+    def update_blog(self, form):
+        fields = form.cleaned_data
+        obj = get_object_or_404(BlogModel, id=self.kwargs["blog_id"])
+        for k, v in fields.items():
+            setattr(obj, k, v)
+        obj.save()
 
 
 class CommentListView(ListView):
