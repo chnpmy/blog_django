@@ -89,7 +89,7 @@
 {% endblock %}
 {% block main_body %}
     <legend>编辑博客</legend>
-    <form method="POST" action="{% url "blog_edit" blog_id=1 %}">
+    <form method="POST" action="{{ request.path }}">
         {% csrf_token %}
         {% for item in form %}
             {% if item.name == 'title' %}

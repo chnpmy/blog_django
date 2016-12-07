@@ -73,15 +73,27 @@ class BlogEditView(LoginRequiredMixin, FormView):
         return initial
 
     def form_valid(self, form):
-        self.update_blog(form)
-        return HttpResponseRedirect(reverse("blog_detail", kwargs={"blog_id": self.kwargs.get("blog_id")}))
+        blog_id = self.update_blog(form)
+        return HttpResponseRedirect(reverse("blog_detail", kwargs={"blog_id": blog_id}))
 
     def update_blog(self, form):
         fields = form.cleaned_data
-        obj = get_object_or_404(BlogModel, id=self.kwargs["blog_id"])
+        if self.kwargs.get("blog_id"):
+            obj = get_object_or_404(BlogModel, id=self.kwargs["blog_id"])
+        else:
+            obj = BlogModel()
+            obj.author = self.request.user
         for k, v in fields.items():
             setattr(obj, k, v)
         obj.save()
+        return obj.id
+
+    def get(self, request, *args, **kwargs):
+        if self.kwargs.get("blog_id"):
+            obj = get_object_or_404(BlogModel, id=self.kwargs.get("blog_id"))
+            if obj.author != request.user:
+                raise PermissionError
+        return super(BlogEditView, self).get(request, *args, **kwargs)
 
 
 class CommentListView(ListView):
