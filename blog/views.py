@@ -43,6 +43,8 @@ class BlogListView(ListView):
 
     def get_queryset(self):
         query_set = super(BlogListView, self).get_queryset()
+        if self.request.GET.get("search"):
+            query_set = query_set.filter(title__contains=self.request.GET.get("search"))
         for each in query_set:
             each.digest = markdown2.markdown(each.digest)
         return query_set
