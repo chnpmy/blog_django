@@ -38,11 +38,12 @@ class CommentListAPIView(ListAPIView):
 
 
 class BlogListView(ListView):
+    paginate_by = 5
     model = BlogModel
     template_name = 'blog_list.html'
 
     def get_queryset(self):
-        query_set = super(BlogListView, self).get_queryset()
+        query_set = super(BlogListView, self).get_queryset().order_by("-ctime")
         if self.request.GET.get("search"):
             query_set = query_set.filter(title__contains=self.request.GET.get("search"))
         for each in query_set:
