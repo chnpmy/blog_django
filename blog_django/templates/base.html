@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load i18n %}
+{% load bootstrap3 %}
 <html lang="en">
 <head>
     {% block ahead_script %}{% endblock %}
@@ -31,8 +32,12 @@
                 {% block side %}
                     <div class="sidebar">
                         <img src="/static/blog_django/img/head.JPG" class="img-rounded" id="header-img">
-                        <div class="sidebar-module sidebar-module-inset">
-                            <h4>关于作者</h4>
+                        <div class="sidebar-module sidebar-module-inset" style="">
+                            <h4>关于作者:</h4>
+                            <ul class="list-inline">
+                                <li><span class="glyphicon glyphicon-pushpin"></span> 后端工程师(Python)</li>
+                                <li><span class="glyphicon glyphicon-envelope"></span><a href="mailto:chnpmy@gmail.com"> chnpmy@gmail.com</a></li>
+                            </ul>
                         </div>
                     </div>
                 {% endblock %}
