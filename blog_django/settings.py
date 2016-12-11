@@ -163,12 +163,12 @@ LOGIN_URL = '/account/login/'
 LOGIN_REDIRECT_URL = "/"
 
 try:
-    from server_conf.py import *
+    from .server_conf.py import *
 except ImportError:
     pass
 
 
 try:
-    from local_conf.py import *
+    from .local_conf.py import *
 except ImportError:
     pass
