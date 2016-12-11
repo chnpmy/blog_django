@@ -18,6 +18,7 @@ from django.contrib import admin
 import xadmin
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic import RedirectView
 
 xadmin.autodiscover()
 from xadmin.plugins import xversion
@@ -26,6 +27,7 @@ xversion.register_models()
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^xadmin/', include(xadmin.site.urls)),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 ] + static(settings.STATIC_URL,
            document_root=settings.STATIC_ROOT)
 
