@@ -3,6 +3,7 @@
 {% load bootstrap3 %}
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     {% block ahead_script %}{% endblock %}
     {% include "global_css.html" %}
     {% block extra_style %}{% endblock %}
@@ -26,19 +27,19 @@
     {% block main_body %}
     <div class="container" style="min-height: 1000px">
         <div id="content" class="row">
-            <div class="col-sm-8">
+            <div class="col-sm-8 col-xs-12">
                 {% block content %}{% endblock %}
             </div>
-            <div class="col-sm-3 col-sm-offset-1">
+            <div class="col-sm-3 col-sm-offset-1 col-xs-12">
                 {% block side %}
                     <div class="sidebar">
-                        <img src="/static/blog_django/img/head.JPG" class="img-rounded" id="header-img">
+                        <img src="/static/blog_django/img/head.JPG" class="img-rounded hidden-xs" id="header-img">
                         <div class="sidebar-module sidebar-module-inset" style="">
-                            <h4>关于作者:</h4>
-                            <ul class="list-inline">
-                                <li><span class="glyphicon glyphicon-pushpin"></span> 后端工程师(Python)</li>
-                                <li><span class="glyphicon glyphicon-envelope"></span><a href="mailto:chnpmy@gmail.com"> chnpmy@gmail.com</a></li>
-                                <li><span class="glyphicon glyphicon-link"></span><a href="https://github.com/chnpmy/"> https://github.com/chnpmy/</a></li>
+                            <h4 class="hidden-xs">关于作者:</h4>
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="glyphicon glyphicon-pushpin"></span> 后端工程师(Python)</li>
+                                <li class="list-group-item"><span class="glyphicon glyphicon-envelope"></span><a href="mailto:chnpmy@gmail.com"> chnpmy@gmail.com</a></li>
+                                <li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="https://github.com/chnpmy/"> https://github.com/chnpmy/</a></li>
                             </ul>
                         </div>
                     </div>
