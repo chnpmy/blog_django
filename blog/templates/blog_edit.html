@@ -57,7 +57,7 @@
           },
           computed: {
             compiledMarkdown: function () {
-              return marked(this.input, { sanitize: true })
+              return marked(this.input, { sanitize: false })
             }
           },
           methods: {
@@ -75,7 +75,7 @@
           },
           computed: {
             compiledMarkdown: function () {
-              return marked(this.input, { sanitize: true })
+                return marked(this.input, { sanitize: false })
             }
           },
           methods: {
@@ -84,7 +84,7 @@
             }, 300)
           }
         })
-    }//]]>
+    };//]]>
 </script>
 {% endblock %}
 {% block main_body %}
