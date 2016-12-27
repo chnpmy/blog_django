@@ -4,33 +4,29 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
+    {% if form.errors %}
+        <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
-{% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<div class="form-group">
-    {% bootstrap_field form.username %}
-</div>
-<div class="form-group">
-    {% bootstrap_field form.password %}
-</div>
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
 
-<input class="btn" type="submit" value="登陆" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            {% bootstrap_field form.username %}
+        </div>
+        <div class="form-group">
+            {% bootstrap_field form.password %}
+        </div>
 
-{# Assumes you setup the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">忘记密码？</a></p>
-
+        <input class="btn" type="submit" value="登陆"/>
+        <input type="hidden" name="next" value="{{ next }}"/>
+    </form>
 {% endblock %}
