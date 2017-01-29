@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from blog.models import BlogModel, CommentModel
+from blog.models import Blog, Comment
 from blog.serializers import BlogListSerializer, BlogDetailSerializer,\
     CommentSerializer
 from django.views.generic import FormView
@@ -16,7 +16,7 @@ import markdown2
 
 
 class BlogListAPIView(ListAPIView):
-    queryset = BlogModel.objects.all().order_by("-ctime")
+    queryset = Blog.objects.all().order_by("-ctime")
     serializer_class = BlogListSerializer
 
 
@@ -25,7 +25,7 @@ class BlogDetailAPIView(RetrieveAPIView):
 
     def get_queryset(self):
         blog_id = self.request.query_params.get("blog_id")
-        return BlogModel.objects.get(id=blog_id)
+        return Blog.objects.get(id=blog_id)
 
 
 class CommentListAPIView(ListAPIView):
@@ -34,12 +34,12 @@ class CommentListAPIView(ListAPIView):
 
     def get_queryset(self):
         blog_id = self.request.query_params.get("blog_id")
-        return CommentModel.objects.filter(commentmodel__blog_id=blog_id)
+        return Comment.objects.filter(commentmodel__blog_id=blog_id)
 
 
 class BlogListView(ListView):
     paginate_by = 5
-    model = BlogModel
+    model = Blog
     template_name = 'blog_list.html'
 
     def get_queryset(self):
@@ -52,11 +52,11 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
-    model = BlogModel
+    model = Blog
     template_name = 'blog_detail.html'
 
     def get_object(self, queryset=None):
-        obj = get_object_or_404(BlogModel, id=self.kwargs.get("blog_id"))
+        obj = get_object_or_404(Blog, id=self.kwargs.get("blog_id"))
         obj.article = markdown2.markdown(obj.article)
         return obj
 
@@ -68,7 +68,7 @@ class BlogEditView(LoginRequiredMixin, FormView):
     def get_initial(self):
         initial = super(BlogEditView, self).get_initial()
         if self.kwargs.get("blog_id"):
-            obj = get_object_or_404(BlogModel, id=self.kwargs.get("blog_id"))
+            obj = get_object_or_404(Blog, id=self.kwargs.get("blog_id"))
             initial["id"] = obj.id
             initial["title"] = obj.title
             initial["digest"] = obj.digest
@@ -82,9 +82,9 @@ class BlogEditView(LoginRequiredMixin, FormView):
     def update_blog(self, form):
         fields = form.cleaned_data
         if self.kwargs.get("blog_id"):
-            obj = get_object_or_404(BlogModel, id=self.kwargs["blog_id"])
+            obj = get_object_or_404(Blog, id=self.kwargs["blog_id"])
         else:
-            obj = BlogModel()
+            obj = Blog()
             obj.author = self.request.user
         for k, v in fields.items():
             setattr(obj, k, v)
@@ -93,11 +93,11 @@ class BlogEditView(LoginRequiredMixin, FormView):
 
     def get(self, request, *args, **kwargs):
         if self.kwargs.get("blog_id"):
-            obj = get_object_or_404(BlogModel, id=self.kwargs.get("blog_id"))
+            obj = get_object_or_404(Blog, id=self.kwargs.get("blog_id"))
             if obj.author != request.user:
                 raise PermissionError
         return super(BlogEditView, self).get(request, *args, **kwargs)
 
 
 class CommentListView(ListView):
-    model = CommentModel
+    model = Comment

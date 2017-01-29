@@ -29,7 +29,9 @@ urlpatterns = [
     url(r'^xadmin/', include(xadmin.site.urls)),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 ] + static(settings.STATIC_URL,
-           document_root=settings.STATIC_ROOT)
+           document_root=settings.STATIC_ROOT) \
+  + static(settings.MEDIA_URL,
+           document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
     url(r'^account/', include("account.urls")),
