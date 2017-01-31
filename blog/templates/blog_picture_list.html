@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <ol class="breadcrumb">
+            <li class="active">图片列表</li>
+            <li><a href="{% url 'blog_picture_upload' %}">加入新图片</a></li>
+        </ol>
+    </div>
+    <div>
+        {% for picture in object_list %}
+            <img src="/media/{{ picture.url }}" class="img-responsive img-thumbnail" width="200" height="200">
+        {% endfor %}
+    </div>
+{% endblock %}

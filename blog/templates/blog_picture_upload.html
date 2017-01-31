@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block main_body %}
+    <div>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'blog_picture_list' %}">图片列表</a></li>
+            <li class="active">加入新图片</li>
+        </ol>
+    </div>
+    <legend>请上传图片：</legend>
+    <form role="form" method="post" action="{{ request.path }}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class="control-label" for="picture">选择图片：</label>
+            <input type="file" id="picture" name="picture">
+        </div>
+        <button type="submit" class="btn btn-default">上传</button>
+    </form>
+{% endblock %}

@@ -88,6 +88,12 @@
 </script>
 {% endblock %}
 {% block main_body %}
+    <div>
+        <ol class="breadcrumb">
+            <li><a href="{% url 'blog_picture_list' %}" target="_blank">图片列表</a></li>
+            <li><a href="{% url 'blog_picture_upload' %}" target="_blank">加入新图片</a></li>
+        </ol>
+    </div>
     <legend>编辑博客</legend>
     <form method="POST" action="{{ request.path }}">
         {% csrf_token %}

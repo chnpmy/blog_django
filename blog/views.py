@@ -1,4 +1,4 @@
-from blog.forms import BlogEditForm
+from blog.forms import BlogEditForm, PictureUploadForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -7,10 +7,10 @@ from blog.models import Blog, Comment
 from blog.serializers import BlogListSerializer, BlogDetailSerializer,\
     CommentSerializer
 from django.views.generic import FormView
-from django.views.generic import View
 from rest_framework.generics import ListAPIView, RetrieveAPIView
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 import markdown2
+from blog.models import Picture
 
 # Create your views here.
 
@@ -34,7 +34,7 @@ class CommentListAPIView(ListAPIView):
 
     def get_queryset(self):
         blog_id = self.request.query_params.get("blog_id")
-        return Comment.objects.filter(commentmodel__blog_id=blog_id)
+        return Comment.objects.filter(comment__blog_id=blog_id)
 
 
 class BlogListView(ListView):
@@ -101,3 +101,32 @@ class BlogEditView(LoginRequiredMixin, FormView):
 
 class CommentListView(ListView):
     model = Comment
+
+
+class PictureListView(ListView, LoginRequiredMixin):
+    model = Picture
+    paginate_by = 100
+    template_name = "blog_picture_list.html"
+
+    def get_queryset(self):
+        query_set = super(PictureListView, self).get_queryset().order_by("-ctime")
+        query_set = query_set.filter(user=self.request.user)
+        return query_set
+
+
+class PictureUploadView(FormView, LoginRequiredMixin):
+    template_name = "blog_picture_upload.html"
+    form_class = PictureUploadForm
+
+    def form_valid(self, form):
+        fields = form.cleaned_data
+        picture = Picture()
+        picture.user = self.request.user
+        picture.url = fields["picture"]
+        picture.save()
+        return HttpResponseRedirect(reverse("blog_picture_list"))
+
+    def get(self, request, *args, **kwargs):
+        return super(PictureUploadView, self).get(request, *args, **kwargs)
+
+

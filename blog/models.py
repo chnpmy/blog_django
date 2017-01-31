@@ -36,3 +36,18 @@ class Comment(models.Model):
         db_table = "comment"
         verbose_name = "评论"
         verbose_name_plural = "评论"
+
+
+class Picture(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    url = models.FileField("图片地址", null=False, max_length=500, upload_to="pic/")
+    ctime = models.DateTimeField("创建时间", auto_now_add=True, db_index=True)
+    utime = models.DateTimeField("更新时间", auto_now=True, db_index=True)
+
+    def __str__(self):
+        return self.url
+
+    class Meta:
+        db_table = "picture"
+        verbose_name = "图片"
+        verbose_name_plural = "图片"
