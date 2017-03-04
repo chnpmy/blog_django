@@ -57,7 +57,7 @@ class BlogDetailView(DetailView):
 
     def get_object(self, queryset=None):
         obj = get_object_or_404(Blog, id=self.kwargs.get("blog_id"))
-        obj.article = markdown2.markdown(obj.article)
+        # obj.article = markdown2.markdown(obj.article)
         return obj
 
 
